@@ -1,3 +1,5 @@
 *
 !.gitignore
-!/dist/
+!index.html
+!main.css
+!main.js
