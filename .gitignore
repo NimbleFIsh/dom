@@ -1,5 +1,2 @@
 *
-!.gitignore
-!index.html
-!main.css
-!main.js
+node_modules
