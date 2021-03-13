@@ -1,7 +1,0 @@
-*
-dist
-!/dist*
-!.gitignore
-!index.html
-!main.js
-!main.css
