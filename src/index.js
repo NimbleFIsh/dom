@@ -1,33 +1,37 @@
 import './style.css';
 
 window.onload = () => {
-  let gamePole; let lastPos = null; let
-    pos;
+  let game,
+      gamePole,
+      lastPos = null,
+      pos,
+      missing = 0;
 
-  function randomColor() {
-    const letters = '0123456789ABCDEF'; let
-      color = '#';
-    do for (let i = 0; i < 6; i += 1) color += letters[Math.floor(Math.random() * 16)]; while (color === '#646464');
-    return color;
+  function clkListen(e){
+    if (e.target.classList.contains('goblin')) {
+      document.getElementById('count').textContent = Number(document.getElementById('count').textContent) + 1;
+      document.getElementById('count').style.color = '#' + Math.floor(Math.random() * 2048).toString(16);
+      gamePole[pos].classList.remove('goblin');
+    }
   }
 
-  setInterval(() => {
+  const gameOver = () => { clearInterval(game); alert('Вы проиграли!'); }
+
+  game = setInterval(() => {
+    document.getElementById('miss').innerText = missing;
+    if (missing === 5) gameOver();
     gamePole = document.getElementById('pole_container').children;
     gamePole.forEach((pole, index) => {
-      pole.removeEventListener('click', () => {});
+      pole.removeEventListener('click', clkListen);
       if (pole.classList.contains('goblin')) {
+        missing++;
         pole.classList.remove('goblin');
         lastPos = index;
       }
     });
-    do pos = Math.floor(Math.random() * Math.floor(gamePole.length)); while (pos === lastPos);
+    do pos = Math.floor(Math.random() * gamePole.length);
+    while (pos === lastPos);
     gamePole[pos].classList.add('goblin');
-    gamePole[pos].addEventListener('click', (e) => {
-      if (e.target.classList.contains('goblin')) {
-        document.getElementById('count').textContent = Number(document.getElementById('count').textContent) + 1;
-        document.getElementById('count').style.color = randomColor();
-        gamePole[pos].classList.remove('goblin');
-      }
-    });
+    gamePole[pos].addEventListener('click', clkListen);
   }, 800);
 };
